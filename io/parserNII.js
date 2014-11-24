@@ -65,6 +65,7 @@ X.parserNII = function() {
 // inherit from X.parser
 goog.inherits(X.parserNII, X.parser);
 
+var FLOOR_pixdim=0.5;
 
 /**
  * @inheritDoc
@@ -351,6 +352,21 @@ X.parserNII.prototype.parseStream = function(data) {
   MRI.bitpix = this.scan('ushort');
   MRI.slice_start = this.scan('ushort');
   MRI.pixdim = this.scan('float', 8);
+
+//MEI XXX this is really a hack cap them at 0.5
+  if( MRI.pixdim[1] < FLOOR_pixdim ||
+           MRI.pixdim[1] < FLOOR_pixdim ||
+                 MRI.pixdim[1] < FLOOR_pixdim) {
+    window.console.log("need to rescale pixdim");
+    var min_p = Math.min(MRI.pixdim[1], MRI.pixdim[2], MRI.pixdim[3]);
+    window.console.log("minimum value is "+min_p);
+    MRI.pixdim[1] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[1];
+    MRI.pixdim[2] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[2];
+    MRI.pixdim[3] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[3];
+    window.console.log("new values are.."+MRI.pixdim[1]+", "+
+              MRI.pixdim[2]+", "+MRI.pixdim[3]);
+  }
+
   MRI.vox_offset = this.scan('float');
   MRI.scl_slope = this.scan('float');
   MRI.scl_inter = this.scan('float');
