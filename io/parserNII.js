@@ -66,6 +66,9 @@ X.parserNII = function() {
 // inherit from X.parser
 goog.inherits(X.parserNII, X.parser);
 
+var FLOOR_pixdim=0.5;
+
+var FLOOR_pixdim=0.5;
 
 var FLOOR_pixdim=0.5;
 
@@ -250,12 +253,26 @@ X.parserNII.prototype.parse = function(container, object, data, flag) {
 
   // grab the RAS Dimensions
   MRI.RASSpacing = [res2[0] - res[0], res2[1] - res[1], res2[2] - res[2]];
+ 
+//MEI
+  printDebug("NII, MRI.RASSpacing, [0]("+MRI.RASSpacing[0]+
+            ") [1]("+ MRI.RASSpacing[1]+
+            ") [2](" + MRI.RASSpacing[2]+ ")");
   
   // grab the RAS Dimensions
   MRI.RASDimensions = [_rasBB[1] - _rasBB[0] + 1, _rasBB[3] - _rasBB[2] + 1, _rasBB[5] - _rasBB[4] + 1];
-  
+
+//MEI
+  printDebug("NII, MRI.Dimensions, [0]("+MRI.RASDimensions[0]+
+            ") [1]("+ MRI.RASDimensions[1]+
+            ") [2](" + MRI.RASDimensions[2]+ ")");
+
   // grab the RAS Origin
   MRI.RASOrigin = [_rasBB[0], _rasBB[2], _rasBB[4]];
+
+//MEI
+  printDebug("NII, MRI.RASOrigin, [0]("+MRI.RASOrigin[0]+
+            ") [1]("+ MRI.RASOrigin[1] +") [2](" + MRI.RASOrigin[2] +")");
   
   // grab the  IJK dimensions
   object._dimensions = _dims;

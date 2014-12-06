@@ -108,6 +108,7 @@ if(range_cnt < 5) {
        if (_d[0] == "v") {
 
          // grab the x, y, z coordinates
+//MEI
          var rescale=top_get_pix_rescale();
          var x = parseFloat(_d[1])*rescale;
          var y = parseFloat(_d[2])*rescale;
