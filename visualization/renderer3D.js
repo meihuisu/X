@@ -1453,6 +1453,9 @@ X.renderer3D.prototype.render_ = function(picking, invoked) {
   // call the render_ method of the superclass
   goog.base(this, 'render_', picking, invoked);
 
+//MEI
+  window.console.log("calling rendering3d with "+this._width+" "+this._height);
+
   // clear the canvas
   this._context.viewport(0, 0, this._width, this._height);
   this._context.clear(this._context.COLOR_BUFFER_BIT |

@@ -240,6 +240,8 @@ X.loader.prototype.load = function(container, object) {
   request.open('GET', filepath, true);
   request.responseType = 'arraybuffer';
 
+window.console.time("XTKLoad");
+
   // .. and GO!
   request.send(null);
 
@@ -258,6 +260,7 @@ X.loader.prototype.load = function(container, object) {
  */
 X.loader.prototype.parse = function(request, container, object) {
 
+window.console.timeEnd("XTKLoad");
   // downloading completed, add progress
   this.addProgress(1.0);
 

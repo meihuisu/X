@@ -1,7 +1,10 @@
-test = function() {
+
+//test = function() {
+window.onload = function() {
 
   // create a new test_renderer
   test_renderer = new X.renderer3D();
+  test_renderer.container="test";
   test_renderer.init();
   
   // load a .nrrd file

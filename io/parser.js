@@ -825,6 +825,14 @@ X.parser.reslice2 = function(_sliceOrigin, _sliceXYSpacing, _sliceNormal, _color
   
   var _hmin = Math.floor(_xyBBox[2]);
   var _hmax = Math.ceil(_xyBBox[3]);
+
+  // if the slice only has to intersections with the volume BBox
+  // (can happens if the slice is right on the edge of the volume)
+  if(_hmin == _hmax){
+
+    _hmax++;
+
+  }
   var _sheight = _hmax - _hmin;
 
   var _resX = _sliceXYSpacing[0];

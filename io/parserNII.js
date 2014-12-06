@@ -35,6 +35,7 @@ goog.require('X.event');
 goog.require('X.object');
 goog.require('X.parser');
 goog.require('X.triplets');
+goog.require('X.debug');
 goog.require('goog.vec.Mat3');
 goog.require('goog.vec.Mat4');
 goog.require('Zlib.Gunzip');
@@ -65,6 +66,8 @@ X.parserNII = function() {
 // inherit from X.parser
 goog.inherits(X.parserNII, X.parser);
 
+
+var FLOOR_pixdim=0.5;
 
 /**
  * @inheritDoc
@@ -100,6 +103,9 @@ X.parserNII.prototype.parse = function(container, object, data, flag) {
   
   // parse the byte stream
   var MRI = this.parseStream(_data);
+
+//MEI
+  printNIIHeader(MRI);
   
   // grab the min, max intensities
   var min = MRI.min;
@@ -351,6 +357,23 @@ X.parserNII.prototype.parseStream = function(data) {
   MRI.bitpix = this.scan('ushort');
   MRI.slice_start = this.scan('ushort');
   MRI.pixdim = this.scan('float', 8);
+
+//MEI XXX this is really a hack cap them at 0.5
+  if( MRI.pixdim[1] < FLOOR_pixdim ||
+           MRI.pixdim[1] < FLOOR_pixdim || 
+                 MRI.pixdim[1] < FLOOR_pixdim) {
+    var min_p = Math.min(MRI.pixdim[1], MRI.pixdim[2], MRI.pixdim[3]);
+    printDebug("NII, need to rescale pixdim -> "+(FLOOR_pixdim/min_p));
+    printDebug("NII, old values are.."+MRI.pixdim[1]+", "+
+              MRI.pixdim[2]+", "+MRI.pixdim[3]);
+    MRI.pixdim[1] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[1];
+    MRI.pixdim[2] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[2];
+    MRI.pixdim[3] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[3];
+    printDebug("NII, new values are.."+MRI.pixdim[1]+", "+
+              MRI.pixdim[2]+", "+MRI.pixdim[3]);
+    top_set_pix_rescale((FLOOR_pixdim)/min_p);
+  }
+
   MRI.vox_offset = this.scan('float');
   MRI.scl_slope = this.scan('float');
   MRI.scl_inter = this.scan('float');
