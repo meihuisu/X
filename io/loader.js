@@ -32,6 +32,7 @@ goog.provide('X.loader');
 goog.require('X.base');
 goog.require('X.event');
 goog.require('X.object');
+goog.require('X.debug');
 goog.require('X.parserCRV');
 goog.require('X.parserDCM');
 goog.require('X.parserFSM');
@@ -210,6 +211,9 @@ X.loader.prototype.load = function(container, object) {
   var _checkresult = this.checkFileFormat(container);
   var filepath = _checkresult[0];
 
+//MEI, this is the file we are loading/accessing
+  printDebug("LOADER, loading -> "+filepath);
+
   if (container._filedata != null) {
 
     // we have raw file data attached and therefor can skip the loading
@@ -240,6 +244,9 @@ X.loader.prototype.load = function(container, object) {
   request.open('GET', filepath, true);
   request.responseType = 'arraybuffer';
 
+// MEI
+window.console.time("xtkHttpRequest");
+
   // .. and GO!
   request.send(null);
 
@@ -257,6 +264,9 @@ X.loader.prototype.load = function(container, object) {
  *          or equals it.
  */
 X.loader.prototype.parse = function(request, container, object) {
+
+// MEI
+window.console.timeEnd("xtkHttpRequest");
 
   // downloading completed, add progress
   this.addProgress(1.0);
@@ -290,9 +300,14 @@ X.loader.prototype.parse = function(request, container, object) {
 
     }
 
+//MEI
+window.console.time("xtkParse");
+
     // call the parse function and pass in the container, the object and the
     // data stream and some additional value
     _parser.parse(container, object, _data, flags);
+//MEI
+window.console.timeEnd("xtkParse");
 
   }.bind(this), 100);
 

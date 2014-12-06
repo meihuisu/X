@@ -81,6 +81,8 @@ class Builder( object ):
     command = ['python', config.CLOSUREBUILDER_PATH]
     command.extend( arguments )
 
+    print command
+
     process = subprocess.Popen( command, bufsize=0, stdout=subprocess.PIPE, stderr=subprocess.STDOUT )
 
     # ignore the next X lines

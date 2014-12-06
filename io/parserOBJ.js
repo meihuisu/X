@@ -35,6 +35,7 @@ goog.require('X.event');
 goog.require('X.object');
 goog.require('X.parser');
 goog.require('X.triplets');
+goog.require('X.debug');
 
 /**
  * Create a parser for the .OBJ format. ASCII or binary format is supported.
@@ -73,6 +74,8 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
   var _length = data.byteLength;
   var byteData = this.scan('uchar', _length);
 
+  printDebug("OBJ, length is "+ _length);
+
   // allocate memory using a good guess
   var _pts = [];
   object._points = new X.triplets(_length);
@@ -82,6 +85,8 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
   
   // store the beginning of the byte range
   var _rangeStart = 0;
+
+  var range_cnt=0;
  
   var i;
   for (i = 0; i < _length; ++i) {
@@ -89,15 +94,30 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
      if (byteData[i] == 10) { // line break
 
        var _substring = this.parseChars(byteData, _rangeStart, i);
+
+range_cnt++;
+if(range_cnt <5) {
+printDebug("OBJ, range ("+range_cnt+")=> "+_rangeStart+" to "+ i);
+}
        
        var _d = _substring.replace(/\s{2,}/g, ' ').split(' ');
+if(range_cnt < 5) {
+   printDebug("OBJ, _d ("+ _d +")");
+}
 
        if (_d[0] == "v") {
 
          // grab the x, y, z coordinates
-         var x = parseFloat(_d[1]);
-         var y = parseFloat(_d[2]);
-         var z = parseFloat(_d[3]);
+//MEI
+         var rescale=top_get_pix_rescale();
+         var x = parseFloat(_d[1])*rescale;
+         var y = parseFloat(_d[2])*rescale;
+         var z = parseFloat(_d[3])*rescale;
+
+if(range_cnt < 5) {
+printDebug("OBJ, in v, x="+x +" y="+y + " z="+z);
+}
+
          _pts.push([x,y,z]);
 
        } else if (_d[0] == "f") {
@@ -110,6 +130,11 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
          p.add(p1[0], p1[1], p1[2]);
          p.add(p2[0], p2[1], p2[2]);
          p.add(p3[0], p3[1], p3[2]);
+if(range_cnt<5) {
+printDebug("OBJ, in f, p1[0]="+p1[0] +" p1[1]="+p1[1] + " p1[2]="+p1[2]);
+printDebug("OBJ, in f, p2[0]="+p2[0] +" p2[1]="+p2[1] + " p2[2]="+p2[2]);
+printDebug("OBJ, in f, p3[0]="+p3[0] +" p3[1]="+p3[1] + " p3[2]="+p3[2]);
+}
      
          // calculate normal
          var v1 = new goog.math.Vec3(p1[0], p1[1], p1[2]);
@@ -120,7 +145,9 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
          n.add(norm.x, norm.y, norm.z);
          n.add(norm.x, norm.y, norm.z);
          n.add(norm.x, norm.y, norm.z);
-
+if(range_cnt<5) {
+printDebug("OBJ, in f, norm.x="+ norm.x +" norm.y="+norm.y + " norm.z="+norm.z);
+}
        }
 
        _rangeStart = i+1; // skip the newline character
