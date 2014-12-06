@@ -68,8 +68,6 @@ goog.inherits(X.parserNII, X.parser);
 
 var FLOOR_pixdim=0.5;
 
-var FLOOR_pixdim=0.5;
-
 /**
  * @inheritDoc
  */
