@@ -34,6 +34,7 @@ goog.provide('X.volume');
 goog.require('X.object');
 goog.require('X.slice');
 goog.require('X.parser');
+goog.require('X.debug');
 goog.require('X.thresholdable');
 
 
@@ -1432,6 +1433,12 @@ X.volume.prototype.volumeRendering_ = function(direction) {
 
   if (this._volumeRenderingCache.indexOf(direction) == -1) {
 
+// need to make sure nothing is computing..
+// MEI
+    if( this._computing == true) {
+      printDebug("something is computing already.. want to do "+direction);
+    }
+
     this._volumeRenderingCache.push(direction);
 
     this._computing = true;
@@ -1721,6 +1728,9 @@ X.volume.prototype.volumeRendering_ = function(direction) {
  */
 X.volume.prototype.onComputing_ = function(direction) {
 
+//MEI
+  printDebug("x.volume, onComptuing_, direction="+direction);
+
   var computingEvent = new X.event.ComputingEvent();
   computingEvent._object = this;
   this.dispatchEvent(computingEvent);
@@ -1738,6 +1748,9 @@ X.volume.prototype.onComputing_ = function(direction) {
  * @protected
  */
 X.volume.prototype.onComputingProgress_ = function(progress) {
+
+//MEI
+  printDebug("x.volume, onComptuingProgress_, progress="+progress);
 
   var computingProgressEvent = new X.event.ComputingProgressEvent();
   computingProgressEvent._value = progress;
@@ -1757,6 +1770,9 @@ X.volume.prototype.onComputingProgress_ = function(progress) {
  *
  */
 X.volume.prototype.onComputingEnd_ = function(direction) {
+
+//MEI
+  printDebug("x.volume, onComptuingEnd_, direction="+direction);
 
   var computingEndEvent = new X.event.ComputingEndEvent();
   computingEndEvent._object = this;

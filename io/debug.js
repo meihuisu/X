@@ -15,7 +15,7 @@ function top_get_pix_rescale() {
 
 function _showDebug (name) {
      var debugwin = window.open ("", name,
-         "left=0, top=0, width=300, height=200, titlebar=yes,  scrollbars=yes,"
+         "left=0, top=0, width=500, height=600, titlebar=yes,  scrollbars=yes,"
           + "status=yes, resizable=yes");
      debugwin.document.open();
      debugwin.document.write (

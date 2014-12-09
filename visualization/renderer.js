@@ -38,6 +38,7 @@ goog.require('X.camera2D');
 goog.require('X.camera3D');
 goog.require('X.cube');
 goog.require('X.cylinder');
+goog.require('X.debug');
 goog.require('X.event');
 goog.require('X.interactor');
 goog.require('X.interactor2D');
@@ -231,14 +232,22 @@ goog.inherits(X.renderer, X.base);
  */
 X.renderer.prototype.onComputing = function(event) {
 
+// MEI
+if (this._config['PROGRESSBAR_ENABLED'] && this._progressBar2) {
+  printDebug("BAD, renderer, onComputing, progressBar2 is not null");
+}
+
   // stop the rendering loop
   window.cancelAnimationFrame(this._AnimationFrameID);
 
   // only do the following if the progressBar was not turned off
   if (this._config['PROGRESSBAR_ENABLED']) {
-
-      this._progressBar2 = new X.progressbar(this._container, 3);
-
+// MEI
+     if (this._progressBar2 == null) {
+        this._progressBar2 = new X.progressbar(this._container, 3);
+     } else {
+        printDebug("BAD, renderer, onComputing, can not assign new progressBar2 ");
+     }
   }
 
 };
@@ -624,7 +633,7 @@ X.renderer.prototype.hideProgressBar_ = function() {
 
         if (this._progressBar) {
 
-          // we are done, kill the progressbar
+          // we are done, .kilothe prkillogressbarkill
           this._progressBar.kill();
           this._progressBar = null;
 
