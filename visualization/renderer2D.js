@@ -31,6 +31,7 @@
 goog.provide('X.renderer2D');
 // requires
 goog.require('X.renderer');
+goog.require('X.debug');
 goog.require('goog.math.Vec3');
 goog.require('goog.vec.Vec4');
 
@@ -329,6 +330,8 @@ X.renderer2D.prototype.onWindowLevel_ = function(event) {
   _volume._windowHigh += parseInt(_old_window - _new_window, 10);
   _volume._windowHigh = Math.min(_volume._windowHigh, _volume._max);
 
+//printDebug("windowLevel, vol.windowLow "+_volume._windowLow+" vol.windowHigh "+_volume._windowHigh);
+
   // execute the callback
   eval('this.onWindowLevel();');
 
@@ -531,6 +534,7 @@ X.renderer2D.prototype.resetViewAndRender = function() {
     _volume._windowLow = _volume._min;
 
   }
+//printDebug("resetView, vol.windowLow "+_volume._windowLow+" vol.windowHigh "+_volume._windowHigh);
   // .. render
   // this.render_(false, false);
 };
@@ -1044,11 +1048,14 @@ X.renderer2D.prototype.render_ = function(picking, invoked) {
   var _pixelsLength = _pixels.length;
 
   // threshold values
-  var _maxScalarRange = _volume._max;
+// MEI
+  var _maxScalarRange = _volume._max - _volume._min;
   var _lowerThreshold = _volume._lowerThreshold;
   var _upperThreshold = _volume._upperThreshold;
   var _windowLow = _volume._windowLow / _maxScalarRange;
   var _windowHigh = _volume._windowHigh / _maxScalarRange;
+
+//printDebug("renderer2D("+this._orientationIndex+") lowerT "+_lowerThreshold+" upperT "+_upperThreshold +" winLow "+_windowLow+" winHigh "+_windowHigh);
 
   // caching mechanism
   // we need to redraw the pixels only
@@ -1076,6 +1083,11 @@ X.renderer2D.prototype.render_ = function(picking, invoked) {
     // loop through the pixels and draw them to the invisible canvas
     // from bottom right up
     // also apply thresholding
+//printDebug("slice "+ _sliceData[0]+ " "+ _sliceData[1]+ " "+
+//_sliceData[2]+ " "+ _sliceData[3]+ " "+ _sliceData[4]+ " "+
+//_sliceData[5]+ " "+ _sliceData[6]+ " "+ _sliceData[7]+ " "+
+//_sliceData[8]+ " "+ _sliceData[9]);
+
     var _index = 0;
     do {
 
@@ -1085,6 +1097,15 @@ X.renderer2D.prototype.render_ = function(picking, invoked) {
 
       // grab the pixel intensity
       var _intensity = _sliceData[_index] / 255 * _maxScalarRange;
+      var myIntensity = (_sliceData[_index]/255)*_maxScalarRange +_volume._min;
+//MEI      _intensity = myIntensity;
+
+if(_index == 76) {
+    printDebug(_index+" =>myIntensity("+ myIntensity+")");
+    printDebug(_index+" =>intensity("+_intensity+
+") slicedata("+_sliceData[_index]+") _maxSR "+_maxScalarRange);
+}
+
       var _origIntensity = _sliceData[_index];
 
       // apply window/level
@@ -1092,8 +1113,16 @@ X.renderer2D.prototype.render_ = function(picking, invoked) {
       _origIntensity = (_origIntensity / 255 - _windowLow) / _fac;
       _origIntensity = _origIntensity * 255;
 
+if(_index == 76) {
+    printDebug("     =>origIntensity("+_origIntensity+") fac "+_fac);
+}
+
       // apply thresholding
       if (_intensity >= _lowerThreshold && _intensity <= _upperThreshold) {
+
+if(_index == 76) {
+    printDebug("XXX within threshold");
+}
 
         // current intensity is inside the threshold range so use the real
         // intensity

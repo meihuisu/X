@@ -13,6 +13,23 @@ function top_get_pix_rescale() {
      return pix_rescale;
 }
 
+function smooth(data, limit) {
+
+  // buffer the length
+  var _datasize = data.length;
+
+  var i = 0;
+  for (i = 0; i < _datasize; i++) {
+
+    if(!isNaN(data[i])) {
+
+      var _value = data[i];
+      data[i]=_value+limit;
+    }
+
+  }
+}
+
 function _showDebug (name) {
      var debugwin = window.open ("", name,
          "left=0, top=0, width=500, height=600, titlebar=yes,  scrollbars=yes,"

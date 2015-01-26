@@ -66,7 +66,7 @@ X.parserNII = function() {
 // inherit from X.parser
 goog.inherits(X.parserNII, X.parser);
 
-var FLOOR_pixdim=0.5;
+var FLOOR_pixdim=0.001;
 
 /**
  * @inheritDoc
@@ -79,7 +79,6 @@ X.parserNII.prototype.parse = function(container, object, data, flag) {
       // it's either big endian, or compressed, or both
 
     try {
-      // first, try to decompress the datastream
       // first, try to decompress the datastream
     
       // here we start the unzipping and get a typed Uint8Array back
@@ -104,12 +103,15 @@ X.parserNII.prototype.parse = function(container, object, data, flag) {
   var MRI = this.parseStream(_data);
 
 //MEI
-//  printNIIHeader(MRI);
+  printNIIHeader(MRI);
   
   // grab the min, max intensities
   var min = MRI.min;
   var max = MRI.max;
   
+printDebug("XXX min .."+min);
+printDebug("XXX max .."+max);
+
   // attach the scalar range to the volume
   object._min = object._windowLow = min;
   object._max = object._windowHigh = max;
@@ -251,15 +253,17 @@ X.parserNII.prototype.parse = function(container, object, data, flag) {
   MRI.RASSpacing = [res2[0] - res[0], res2[1] - res[1], res2[2] - res[2]];
  
 //MEI
+/*
   printDebug("NII, MRI.RASSpacing, [0]("+MRI.RASSpacing[0]+
             ") [1]("+ MRI.RASSpacing[1]+
             ") [2](" + MRI.RASSpacing[2]+ ")");
+*/
   
   // grab the RAS Dimensions
   MRI.RASDimensions = [_rasBB[1] - _rasBB[0] + 1, _rasBB[3] - _rasBB[2] + 1, _rasBB[5] - _rasBB[4] + 1];
 
 //MEI
-  printDebug("NII, MRI.Dimensions, [0]("+MRI.RASDimensions[0]+
+  printDebug("NII, MRI.RASDimensions, [0]("+MRI.RASDimensions[0]+
             ") [1]("+ MRI.RASDimensions[1]+
             ") [2](" + MRI.RASDimensions[2]+ ")");
 
@@ -385,6 +389,9 @@ X.parserNII.prototype.parseStream = function(data) {
     printDebug("NII, new values are.."+MRI.pixdim[1]+", "+
               MRI.pixdim[2]+", "+MRI.pixdim[3]);
     top_set_pix_rescale((FLOOR_pixdim)/min_p);
+  } else {
+    printDebug("NII, no need to rescale pixdime.."+MRI.pixdim[1]+", "+
+              MRI.pixdim[2]+", "+MRI.pixdim[3]);
   }
 
   MRI.vox_offset = this.scan('float');
@@ -448,6 +455,7 @@ X.parserNII.prototype.parseStream = function(data) {
     break;
   case 32:
     // complex
+printDebug("ZZZ using a complex data");
     MRI.data = this.scan('complex', volsize);
     break;
   case 64:
@@ -470,6 +478,15 @@ X.parserNII.prototype.parseStream = function(data) {
   default:
     throw new Error('Unsupported NII data type: ' + MRI.datatype);
   }
+
+// MEI hack 
+//  smooth(MRI.data,1121);
+//  smooth(MRI.data,1141);
+
+//  printDebug("---> input, 10 ("+ MRI.data[10]+")");
+//  printDebug("---> input, 20 ("+ MRI.data[20]+")");
+//  printDebug("---> input, 30 ("+ MRI.data[30]+")");
+//  printDebug("---> input, 76 ("+ MRI.data[76]+")");
   
   // get the min and max intensities
   var min_max = this.arrayMinMax(MRI.data);

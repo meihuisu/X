@@ -1042,6 +1042,7 @@ X.parser.prototype.updateSliceInfo = function(_index, _sliceOrigin, _sliceNormal
   // scale
   goog.vec.Vec4.scale(_sliceNormal,_xySpacing[2],_sliceDirection);
 
+/* XXX
    if(Math.abs(_xySpacing[0]) < 0.5){
      _xySpacing[0] =  0.5;
    }
@@ -1049,6 +1050,7 @@ X.parser.prototype.updateSliceInfo = function(_index, _sliceOrigin, _sliceNormal
    if(Math.abs(_xySpacing[1]) < 0.5){
      _xySpacing[1] =  0.5;
    }
+*/
 
   object._childrenInfo[_index]._sliceXYSpacing = [Math.abs(_xySpacing[0]), Math.abs(_xySpacing[1])];
   object._childrenInfo[_index]._sliceSpacing = _xySpacing[2];

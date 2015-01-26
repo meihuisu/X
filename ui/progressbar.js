@@ -194,7 +194,6 @@ X.progressbar.prototype.init_ = function() {
   pbElement.style.top = (this._parent.clientHeight - 5) / 2 + 'px';
   pbElement.style.left = (this._parent.clientWidth - 100) / 2 + 'px';
   pbElement.classList.add('xtk-progress-bar');
-  
 };
 
 
