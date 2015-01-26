@@ -212,7 +212,7 @@ X.loader.prototype.load = function(container, object) {
   var filepath = _checkresult[0];
 
 //MEI, this is the file we are loading/accessing
-  printDebug("LOADER, loading -> "+filepath);
+//  printDebug("LOADER, loading -> "+filepath);
 
   if (container._filedata != null) {
 

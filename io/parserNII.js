@@ -300,8 +300,7 @@ printDebug("XXX max .."+max);
   // grab the RAS Dimensions
   MRI.RASSpacing = [res2[0] - res[0], res2[1] - res[1], res2[2] - res[2]];
  
-//MEI
-/*
+/* MEI
   printDebug("NII, MRI.RASSpacing, [0]("+MRI.RASSpacing[0]+
             ") [1]("+ MRI.RASSpacing[1]+
             ") [2](" + MRI.RASSpacing[2]+ ")");
@@ -310,17 +309,19 @@ printDebug("XXX max .."+max);
   // grab the RAS Dimensions
   MRI.RASDimensions = [_rasBB[1] - _rasBB[0] + 1, _rasBB[3] - _rasBB[2] + 1, _rasBB[5] - _rasBB[4] + 1];
 
-//MEI
-  printDebug("NII, MRI.RASDimensions, [0]("+MRI.RASDimensions[0]+
+/* MEI
+  printDebug("NII, MRI.Dimensions, [0]("+MRI.RASDimensions[0]+
             ") [1]("+ MRI.RASDimensions[1]+
             ") [2](" + MRI.RASDimensions[2]+ ")");
+*/
 
   // grab the RAS Origin
   MRI.RASOrigin = [_rasBB[0], _rasBB[2], _rasBB[4]];
 
-//MEI
+/* MEI
   printDebug("NII, MRI.RASOrigin, [0]("+MRI.RASOrigin[0]+
             ") [1]("+ MRI.RASOrigin[1] +") [2](" + MRI.RASOrigin[2] +")");
+*/
   
   // grab the  IJK dimensions
   object._dimensions = _dims;
@@ -428,14 +429,18 @@ X.parserNII.prototype.parseStream = function(data) {
            MRI.pixdim[1] < FLOOR_pixdim & 
                  MRI.pixdim[1] < FLOOR_pixdim) {
     var min_p = Math.min(MRI.pixdim[1], MRI.pixdim[2], MRI.pixdim[3]);
+/*
     printDebug("NII, need to rescale pixdim -> "+(FLOOR_pixdim/min_p));
     printDebug("NII, old values are.."+MRI.pixdim[1]+", "+
               MRI.pixdim[2]+", "+MRI.pixdim[3]);
+*/
     MRI.pixdim[1] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[1];
     MRI.pixdim[2] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[2];
     MRI.pixdim[3] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[3];
+/*
     printDebug("NII, new values are.."+MRI.pixdim[1]+", "+
               MRI.pixdim[2]+", "+MRI.pixdim[3]);
+*/
     top_set_pix_rescale((FLOOR_pixdim)/min_p);
   } else {
     printDebug("NII, no need to rescale pixdime.."+MRI.pixdim[1]+", "+

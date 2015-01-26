@@ -232,10 +232,11 @@ goog.inherits(X.renderer, X.base);
  */
 X.renderer.prototype.onComputing = function(event) {
 
-// MEI
+/* MEI
 if (this._config['PROGRESSBAR_ENABLED'] && this._progressBar2) {
   printDebug("BAD, renderer, onComputing, progressBar2 is not null");
 }
+*/
 
   // stop the rendering loop
   window.cancelAnimationFrame(this._AnimationFrameID);

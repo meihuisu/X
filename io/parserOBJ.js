@@ -74,7 +74,7 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
   var _length = data.byteLength;
   var byteData = this.scan('uchar', _length);
 
-  printDebug("OBJ, length is "+ _length);
+//MEI  printDebug("OBJ, length is "+ _length);
 
   // allocate memory using a good guess
   var _pts = [];
@@ -95,15 +95,19 @@ X.parserOBJ.prototype.parse = function(container, object, data, flag) {
 
        var _substring = this.parseChars(byteData, _rangeStart, i);
 
+/* MEI
 range_cnt++;
 if(range_cnt <5) {
 printDebug("OBJ, range ("+range_cnt+")=> "+_rangeStart+" to "+ i);
 }
+*/
        
        var _d = _substring.replace(/\s{2,}/g, ' ').split(' ');
+/* MEI
 if(range_cnt < 5) {
    printDebug("OBJ, _d ("+ _d +")");
 }
+*/
 
        if (_d[0] == "v") {
 
@@ -114,9 +118,11 @@ if(range_cnt < 5) {
          var y = parseFloat(_d[2])*rescale;
          var z = parseFloat(_d[3])*rescale;
 
+/*
 if(range_cnt < 5) {
 printDebug("OBJ, in v, x="+x +" y="+y + " z="+z);
 }
+*/
 
          _pts.push([x,y,z]);
 
@@ -130,11 +136,13 @@ printDebug("OBJ, in v, x="+x +" y="+y + " z="+z);
          p.add(p1[0], p1[1], p1[2]);
          p.add(p2[0], p2[1], p2[2]);
          p.add(p3[0], p3[1], p3[2]);
+/*MEI
 if(range_cnt<5) {
 printDebug("OBJ, in f, p1[0]="+p1[0] +" p1[1]="+p1[1] + " p1[2]="+p1[2]);
 printDebug("OBJ, in f, p2[0]="+p2[0] +" p2[1]="+p2[1] + " p2[2]="+p2[2]);
 printDebug("OBJ, in f, p3[0]="+p3[0] +" p3[1]="+p3[1] + " p3[2]="+p3[2]);
 }
+*/
      
          // calculate normal
          var v1 = new goog.math.Vec3(p1[0], p1[1], p1[2]);
@@ -145,9 +153,11 @@ printDebug("OBJ, in f, p3[0]="+p3[0] +" p3[1]="+p3[1] + " p3[2]="+p3[2]);
          n.add(norm.x, norm.y, norm.z);
          n.add(norm.x, norm.y, norm.z);
          n.add(norm.x, norm.y, norm.z);
+/* MEI
 if(range_cnt<5) {
 printDebug("OBJ, in f, norm.x="+ norm.x +" norm.y="+norm.y + " norm.z="+norm.z);
 }
+*/
        }
 
        _rangeStart = i+1; // skip the newline character

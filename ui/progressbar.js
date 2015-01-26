@@ -245,10 +245,11 @@ X.progressbar.prototype.kill = function() {
   }
   if (this._doneProgressBar) {
     goog.dom.removeNode(this._doneProgressBar.getElement());
-//MEI
+/* MEI
     } else {
      printDebug("BAD, progressBar, calling kill but did not have done node.");
  
+*/
   }
   
   this._style = null;
