@@ -35,7 +35,6 @@ goog.require('X.event');
 goog.require('X.object');
 goog.require('X.parser');
 goog.require('X.triplets');
-goog.require('X.debug');
 goog.require('goog.vec.Mat3');
 goog.require('goog.vec.Mat4');
 goog.require('Zlib.Gunzip');
@@ -66,7 +65,6 @@ X.parserNII = function() {
 // inherit from X.parser
 goog.inherits(X.parserNII, X.parser);
 
-var FLOOR_pixdim=0.001;
 
 /**
  * @inheritDoc
@@ -98,16 +96,10 @@ X.parserNII.prototype.parse = function(container, object, data, flag) {
   
   // parse the byte stream
   var MRI = this.parseStream(_data);
-
-//MEI
-  printNIIHeader(MRI);
   
   // grab the min, max intensities
   var min = MRI.min;
   var max = MRI.max;
-  
-printDebug("XXX min .."+min);
-printDebug("XXX max .."+max);
 
   // attach the scalar range to the volume
   object._min = object._windowLow = min;
@@ -299,29 +291,12 @@ printDebug("XXX max .."+max);
 
   // grab the RAS Dimensions
   MRI.RASSpacing = [res2[0] - res[0], res2[1] - res[1], res2[2] - res[2]];
- 
-/* MEI
-  printDebug("NII, MRI.RASSpacing, [0]("+MRI.RASSpacing[0]+
-            ") [1]("+ MRI.RASSpacing[1]+
-            ") [2](" + MRI.RASSpacing[2]+ ")");
-*/
   
   // grab the RAS Dimensions
   MRI.RASDimensions = [_rasBB[1] - _rasBB[0] + 1, _rasBB[3] - _rasBB[2] + 1, _rasBB[5] - _rasBB[4] + 1];
-
-/* MEI
-  printDebug("NII, MRI.Dimensions, [0]("+MRI.RASDimensions[0]+
-            ") [1]("+ MRI.RASDimensions[1]+
-            ") [2](" + MRI.RASDimensions[2]+ ")");
-*/
-
+  
   // grab the RAS Origin
   MRI.RASOrigin = [_rasBB[0], _rasBB[2], _rasBB[4]];
-
-/* MEI
-  printDebug("NII, MRI.RASOrigin, [0]("+MRI.RASOrigin[0]+
-            ") [1]("+ MRI.RASOrigin[1] +") [2](" + MRI.RASOrigin[2] +")");
-*/
   
   // grab the  IJK dimensions
   object._dimensions = _dims;
@@ -423,30 +398,6 @@ X.parserNII.prototype.parseStream = function(data) {
   MRI.bitpix = this.scan('ushort');
   MRI.slice_start = this.scan('ushort');
   MRI.pixdim = this.scan('float', 8);
-
-//MEI XXX this is really a hack cap them at 0.5
-  if( MRI.pixdim[1] < FLOOR_pixdim & 
-           MRI.pixdim[1] < FLOOR_pixdim & 
-                 MRI.pixdim[1] < FLOOR_pixdim) {
-    var min_p = Math.min(MRI.pixdim[1], MRI.pixdim[2], MRI.pixdim[3]);
-/*
-    printDebug("NII, need to rescale pixdim -> "+(FLOOR_pixdim/min_p));
-    printDebug("NII, old values are.."+MRI.pixdim[1]+", "+
-              MRI.pixdim[2]+", "+MRI.pixdim[3]);
-*/
-    MRI.pixdim[1] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[1];
-    MRI.pixdim[2] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[2];
-    MRI.pixdim[3] = ((FLOOR_pixdim)/min_p) * MRI.pixdim[3];
-/*
-    printDebug("NII, new values are.."+MRI.pixdim[1]+", "+
-              MRI.pixdim[2]+", "+MRI.pixdim[3]);
-*/
-    top_set_pix_rescale((FLOOR_pixdim)/min_p);
-  } else {
-    printDebug("NII, no need to rescale pixdime.."+MRI.pixdim[1]+", "+
-              MRI.pixdim[2]+", "+MRI.pixdim[3]);
-  }
-
   MRI.vox_offset = this.scan('float');
   MRI.scl_slope = this.scan('float');
   MRI.scl_inter = this.scan('float');
@@ -508,7 +459,6 @@ X.parserNII.prototype.parseStream = function(data) {
     break;
   case 32:
     // complex
-printDebug("ZZZ using a complex data");
     MRI.data = this.scan('complex', volsize);
     break;
   case 64:
@@ -531,15 +481,6 @@ printDebug("ZZZ using a complex data");
   default:
     throw new Error('Unsupported NII data type: ' + MRI.datatype);
   }
-
-// MEI hack 
-//  smooth(MRI.data,1121);
-//  smooth(MRI.data,1141);
-
-//  printDebug("---> input, 10 ("+ MRI.data[10]+")");
-//  printDebug("---> input, 20 ("+ MRI.data[20]+")");
-//  printDebug("---> input, 30 ("+ MRI.data[30]+")");
-//  printDebug("---> input, 76 ("+ MRI.data[76]+")");
   
   // get the min and max intensities
   var min_max = this.arrayMinMax(MRI.data);

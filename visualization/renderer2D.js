@@ -1143,10 +1143,6 @@ X.renderer2D.prototype.render_ = function(picking, invoked) {
         _origIntensity  = 255 * (_intensity - (_level - _window / 2))/_window;
       }
 
-if(_index == 76) {
-    printDebug("     =>origIntensity("+_origIntensity+") fac "+_fac);
-}
-
       // apply thresholding
       if (_intensity >= _lowerThreshold && _intensity <= _upperThreshold) {
 

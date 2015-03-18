@@ -1005,6 +1005,7 @@ X.volume.prototype.__defineGetter__('windowLow', function() {
  */
 X.volume.prototype.__defineSetter__('windowLow', function(windowLow) {
 
+  printDebug("reset -> WindowLow, from "+this._windowLow + " to "+windowLow);
   this._windowLow = windowLow;
 
 });
@@ -1032,6 +1033,7 @@ X.volume.prototype.__defineGetter__('windowHigh', function() {
  */
 X.volume.prototype.__defineSetter__('windowHigh', function(windowHigh) {
 
+  printDebug("reset -> WindowHigh, from "+this._windowHigh + " to "+windowHigh);
   this._windowHigh = windowHigh;
 
 });
