@@ -295,8 +295,7 @@ X.parserTIFF.prototype.parseStream = function(data) {
   MRI.little_endian = this._littleEndian = (byteorder == 0x4949);
   MRI.magic_number  = this.scan('ushort');
   if (MRI.magic_number != '42') {
-      throw new Error('Invalid TIFF file. Magicnumber: ',
-          MRI.magic_number);
+      throw new Error('Invalid TIFF file. Magicnumber: '+ MRI.magic_number);
   }
 
   // the first ifd_offset
@@ -557,8 +556,7 @@ max=56810.0*/
           MRI.datas=image_data;
           MRI.data = image_data[0]; 
           var minmax = this.arrayMinMax(MRI.data);
-window.console.log("setting up with channel 0, minmax "+minmax);
-window.console.log("first few data"+ MRI.data[0]+" "+MRI.data[10]+" "+MRI.data[20]);
+
           MRI.max = minmax[1];
           MRI.min = minmax[0];
           break;
@@ -628,14 +626,15 @@ X.parserTIFF.prototype.loadImageData = function(offsets, bytecnt, bits) {
 X.parserTIFF.prototype.resetMRI = function(MRI, channel) {
 
     var len=MRI.channel_size;
-    if(channel >= len) {
-      // out of bound
-      throw new Error('Invalid channel id, max is' + len);
+
+    if( channel < len) {
+//       window.console.log("okay..");
+    } else {
+       throw new Error('Invalid channel, value out of bound, max is '+len);
     }
+
     MRI.data = MRI.datas[channel];
     var minmax = this.arrayMinMax(MRI.data);
-window.console.log("setting up with channel "+channel+", minmax "+minmax);
-window.console.log("first few data"+ MRI.data[0]+" "+MRI.data[10]+" "+MRI.data[20]);
     MRI.max = minmax[1];
     MRI.min = minmax[0];
     return MRI;
@@ -646,7 +645,7 @@ window.console.log("first few data"+ MRI.data[0]+" "+MRI.data[10]+" "+MRI.data[2
  * Reset the channel
  *
  */
-X.parserTIFF.prototype.resetChannel = function(object, channel, color) {
+X.parserTIFF.prototype.resetChannel = function(object, channel) {
    /* in here */
    var _object=object;
    var _nm=X.parserTIFF.prototype.cacheTag(_object);
@@ -664,10 +663,6 @@ X.parserTIFF.prototype.resetChannel = function(object, channel, color) {
    if(_MRI == null) {
       throw new Error('Invalid TIFF cache entry');
    }
-
-   window.console.log("channel is "+channel);
-   window.console.log("color is "+color);
-   _object.maxColor=color;
 
    _MRI=_this.resetMRI(_MRI, channel);
 
@@ -691,7 +686,7 @@ X.parserTIFF.prototype.resetChannel = function(object, channel, color) {
    _child = _object._children[2];
    _child['visible'] = false;
 
-   _object._image = _this.reslice(object);
+   _object._image = _this.reslice(_object);
 }
 
 X.parserTIFF.prototype.cacheTag = function(object) {

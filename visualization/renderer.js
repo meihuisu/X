@@ -681,8 +681,6 @@ X.renderer.prototype.init = function(_contextName) {
   _canvas.width = this._width;
   _canvas.height = this._height;
 
-window.console.log("-RRR  renderer init:"+_contextName+"(width/"+this._width+")(height/"+this._height+")");
-
   // --------------------------------------------------------------------------
   //
   // Viewport initialization

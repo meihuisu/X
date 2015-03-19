@@ -1,7 +1,7 @@
 
 goog.provide('X.debug');
 
-var debug=1;
+var debug=0;
 var pix_rescale=1;
 var myDebugWin;
 
