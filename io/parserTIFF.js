@@ -265,6 +265,7 @@ X.parserTIFF.MRI = {
     datatype: 0, // *!< Defines data type! */ /* short datatype; */
     pixdim: null, // *!< Grid spacings. */ /* float pixdim[8]; */
     channel_size: 1, // *!< Channels */ /* short channel_size; */
+    rgb: false, // *!< rgb */ /* boolean rgb; */
     z: -1, // *!< Z from image_description */ /* short z; */
     data: [], // original raw data -- one set
     datas: [], // whole set of channel datas
@@ -500,7 +501,7 @@ max=56810.0*/
           var _bits = _first_ifd['BITS_PER_SAMPLE'];
 
           /* it is rgb if photometric is 2 */
-          var _rgb = (_first_ifd['PHOTO_INTERP'] == 2)? true: false;
+          var _rgb = MRI.rgb = (_first_ifd['PHOTO_INTERP'] == 2)? true: false;
 
           MRI.dim = [4, _x, _y, _z, 1, 1, 0, 0];
           
@@ -623,6 +624,10 @@ X.parserTIFF.prototype.loadImageData = function(offsets, bytecnt, bits) {
   return _data;
 }
 
+X.parserTIFF.prototype.isRGB = function(MRI) {
+    return MRI.rgb;
+}
+
 X.parserTIFF.prototype.resetMRI = function(MRI, channel) {
 
     var len=MRI.channel_size;
@@ -697,7 +702,61 @@ X.parserTIFF.prototype.cacheTag = function(object) {
 }
 
 
+/**
+ * Check if it is an rgb tiff volume
+ *
+ */
+X.parserTIFF.prototype.isTiffRGB = function(object) {
+   /* in here */
+   var _object=object;
+   var _nm=X.parserTIFF.prototype.cacheTag(_object);
+
+   var _MRI = null;
+   var _this = null;
+   for ( var i = 0; i < CACHE.length; i+=1) {
+      var t=CACHE[i];
+      if(t.nm == _nm) {
+         _MRI=t.mri;
+         _this=t.parser;
+         break;
+      }
+   }
+   if(_MRI == null) {
+      throw new Error('Invalid TIFF cache entry');
+      return false;
+   }
+
+   var _rgb=_MRI.rgb;
+   return _rgb;
+}
+
+X.parserTIFF.prototype.isTiffMultiChannel = function(object) {
+   /* in here */
+   var _object=object;
+   var _nm=X.parserTIFF.prototype.cacheTag(_object);
+
+   var _MRI = null;
+   var _this = null;
+   for ( var i = 0; i < CACHE.length; i+=1) {
+      var t=CACHE[i];
+      if(t.nm == _nm) {
+         _MRI=t.mri;
+         _this=t.parser;
+         break;
+      }
+   }
+   if(_MRI == null) {
+      throw new Error('Invalid TIFF cache entry');
+      return 0;
+   }
+
+   return _MRI.channel_size;
+}
+
+
 // export symbols (required for advanced compilation)
 goog.exportSymbol('X.parserTIFF', X.parserTIFF);
 goog.exportSymbol('X.parserTIFF.prototype.parse', X.parserTIFF.prototype.parse);
 goog.exportSymbol('X.parserTIFF.prototype.resetChannel', X.parserTIFF.prototype.resetChannel);
+goog.exportSymbol('X.parserTIFF.prototype.isTiffRGB', X.parserTIFF.prototype.isTiffRGB);
+goog.exportSymbol('X.parserTIFF.prototype.isTiffMultiChannel', X.parserTIFF.prototype.isTiffMultiChannel);
