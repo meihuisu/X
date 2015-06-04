@@ -544,6 +544,7 @@ X.volume.prototype.slicing_ = function() {
 
     }
 
+
     // RESLICE VOLUME IF NECESSARY!
     if(!goog.isDefAndNotNull(this._children[xyz]._children[parseInt(currentIndex, 10)])){
 
@@ -1557,11 +1558,11 @@ X.volume.prototype.volumeRendering_ = function(direction) {
   if (this._volumeRenderingCache.indexOf(direction) == -1) {
 
 // need to make sure nothing is computing..
-/* MEI
+/* MEI 
     if( this._computing == true) {
       printDebug("BAD, something is computing already.. want to do "+direction);
     }
-*/
+*/ 
 
     this._volumeRenderingCache.push(direction);
 
@@ -1584,7 +1585,6 @@ X.volume.prototype.volumeRendering_ = function(direction) {
 
     var i;
     for (i = 0; i < _numberOfSlices; i++) {
-
       _child._children[i]._visible = true;
 
     }
