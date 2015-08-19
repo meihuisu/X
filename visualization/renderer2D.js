@@ -1146,10 +1146,6 @@ X.renderer2D.prototype.render_ = function(picking, invoked) {
       // apply thresholding
       if (_intensity >= _lowerThreshold && _intensity <= _upperThreshold) {
 
-if(_index == 76) {
-    printDebug("XXX within threshold");
-}
-
         // current intensity is inside the threshold range so use the real
         // intensity
 

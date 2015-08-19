@@ -434,7 +434,6 @@ X.renderer.prototype.onResize_ = function() {
 
     // modify perspective
     this._camera._perspective = X.matrix.makePerspective(X.matrix.identity(), this._camera._fieldOfView, (this._canvas.width/this._canvas.height), 1, 10000);
-
   }
 
   // .. and re-draw

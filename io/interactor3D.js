@@ -31,6 +31,7 @@ goog.provide('X.interactor3D');
 
 // requires
 goog.require('X.interactor');
+goog.require('X.debug');
 
 
 
@@ -69,7 +70,7 @@ goog.inherits(X.interactor3D, X.interactor);
 X.interactor3D.prototype.onMouseWheel_ = function(event) {
 
   goog.base(this, 'onMouseWheel_', event);
-  
+
   // create a new zoom event
   var e = new X.event.ZoomEvent();
   

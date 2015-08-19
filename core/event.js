@@ -53,6 +53,7 @@ goog.require('X.object');
 goog.require('X.vector');
 goog.require('goog.events');
 goog.require('goog.events.Event');
+goog.require('X.debug');
 
 
 
@@ -242,6 +243,7 @@ X.event.ZoomEvent = function() {
   // call the default event constructor
   goog.base(this, X.event.events.ZOOM);
   
+  printDebug("in ZoomEvent");
   /**
    * The flag for the zooming direction. If TRUE, the zoom operation will move
    * the objects closer to the event. If FALSE, further away from the event.

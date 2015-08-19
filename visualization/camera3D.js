@@ -75,6 +75,7 @@ X.camera3D = function(width, height) {
    * @protected
    */
   this._perspective = X.matrix.makePerspective(X.matrix.identity(), this._fieldOfView, (width/height), 1, 10000);
+//this._perspective = X.matrix.makeOrtho(X.matrix.identity(), -100, 100, -100, 100, 1, 10000);
 
 };
 // inherit from X.base
@@ -157,4 +158,20 @@ X.camera3D.prototype.unproject_ = function (x,y,z) {
 
 };
 
+/**
+ * Function to adjust the clip plane of the view projection.
+ *
+ * @param {number} width The width of the camera's viewport.
+ * @param {number} height The height of the camera's viewport.
+ * @param {number} near The near plane of the camera's viewport.
+ */
+X.camera3D.prototype.clip = function(width, height, near) {
+
+  this._perspective = X.matrix.makePerspective(X.matrix.identity(), this._fieldOfView, (width/height), near, 10000);
+};
+
+
 goog.exportSymbol('X.camera3D', X.camera3D);
+goog.exportSymbol('X.camera3D.prototype.clip',
+    X.camera3D.prototype.clip);
+

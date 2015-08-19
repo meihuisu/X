@@ -318,7 +318,7 @@ X.parserTRK.prototype.parse = function(container, object, data, flag) {
       scalarArray[_scalarIndex++] = length;
       scalarArray[_scalarIndex++] = length;
       scalarArray[_scalarIndex++] = length;
-      scalarArray[_scalarIndex++] = length;
+
       scalarArray[_scalarIndex++] = length;
 
     } // loop through points

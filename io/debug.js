@@ -49,6 +49,7 @@ function _printDebug (winHandle, text) {
 function printDebug(text) {
     if (!debug) return;
     if ((myDebugWin == undefined) || (myDebugWin.closed)) {
+             myDebugWin = 0;
              myDebugWin = _showDebug ("myDebugWin");
     }
     _printDebug( myDebugWin, text);
@@ -84,119 +85,119 @@ function printNIIHeader(data) {
   }
 
 //header_key substruct 
-  _printDebug( myDebugWin, "mri.sizeof_hdr=>"+mri.sizeof_hdr );
+  printDebug( "mri.sizeof_hdr=>"+mri.sizeof_hdr );
   var s="";
   var t;
   for(i =0 ; i < 10; i++) { s=s+mri.data_type[i]; }
-  _printDebug( myDebugWin, "mri.data_type=>"+s );
+  printDebug( "mri.data_type=>"+s );
   s="";
   for(i =0 ; i < 18; i++) { s=s+mri.db_name[i]; }
-  _printDebug( myDebugWin, "mri.db_name=>"+s );
-  _printDebug( myDebugWin, "mri.extents=>"+mri.extents );
-  _printDebug( myDebugWin, "mri.session_error=>"+mri.session_error );
-  _printDebug( myDebugWin, "mri.regular=>"+mri.regular );
-  _printDebug( myDebugWin, "mri.dim_info=>"+mri.dim_info );
+  printDebug( "mri.db_name=>"+s );
+  printDebug( "mri.extents=>"+mri.extents );
+  printDebug( "mri.session_error=>"+mri.session_error );
+  printDebug( "mri.regular=>"+mri.regular );
+  printDebug( "mri.dim_info=>"+mri.dim_info );
 
 //image_dimension substruct => 
   for(i =0 ; i < 8; i++) {
       t="mri.dim["+i+"]";
-      _printDebug( myDebugWin, t+mri.dim[i] );
+      printDebug( t+mri.dim[i] );
   }
-  _printDebug( myDebugWin, "mri.intent_p1=>"+mri.intent_p1 );
-  _printDebug( myDebugWin, "mri.intent_p2=>"+mri.intent_p2 );
-  _printDebug( myDebugWin, "mri.intent_p3=>"+mri.intent_p3 );
-  _printDebug( myDebugWin, "mri.intent_code=>"+mri.intent_code );
+  printDebug( "mri.intent_p1=>"+mri.intent_p1 );
+  printDebug( "mri.intent_p2=>"+mri.intent_p2 );
+  printDebug( "mri.intent_p3=>"+mri.intent_p3 );
+  printDebug( "mri.intent_code=>"+mri.intent_code );
   s="";
   for(i =0 ; i < 80; i++) { s=s+mri.descrip[i]; }
-  _printDebug( myDebugWin, "mri.descrip=>"+s );
+  printDebug( "mri.descrip=>"+s );
   
-  _printDebug( myDebugWin, "mri.bitpix=>"+mri.bitpix );
-  _printDebug( myDebugWin, "mri.slice_start=>"+mri.slice_start );
+  printDebug( "mri.bitpix=>"+mri.bitpix );
+  printDebug( "mri.slice_start=>"+mri.slice_start );
   for(i =0 ; i < 8; i++) {
       t="mri.pixdim["+i+"]";
-      _printDebug( myDebugWin, t+mri.pixdim[i] );
+      printDebug( t+mri.pixdim[i] );
   }
-  _printDebug( myDebugWin, "mri.vox_offset=>"+mri.vox_offset );
-  _printDebug( myDebugWin, "mri.scl_slope=>"+mri.scl_slope );
-  _printDebug( myDebugWin, "mri.scl_inter=>"+mri.scl_inter );
-  _printDebug( myDebugWin, "mri.slice_end=>"+mri.slice_end );
-  _printDebug( myDebugWin, "mri.slice_code=>"+mri.slice_code );
-  _printDebug( myDebugWin, "mri.xyzt_units=>"+mri.xyzt_units );
-  _printDebug( myDebugWin, "mri.cal_max=>"+mri.cal_max );
-  _printDebug( myDebugWin, "mri.cal_min=>"+mri.cal_min );
-  _printDebug( myDebugWin, "mri.slice_duration=>"+mri.slice_duration );
-  _printDebug( myDebugWin, "mri.toffset=>"+mri.toffset );
-  _printDebug( myDebugWin, "mri.glmax=>"+mri.glmax );
-  _printDebug( myDebugWin, "mri.glmin=>"+mri.glmin );
+  printDebug( "mri.vox_offset=>"+mri.vox_offset );
+  printDebug( "mri.scl_slope=>"+mri.scl_slope );
+  printDebug( "mri.scl_inter=>"+mri.scl_inter );
+  printDebug( "mri.slice_end=>"+mri.slice_end );
+  printDebug( "mri.slice_code=>"+mri.slice_code );
+  printDebug( "mri.xyzt_units=>"+mri.xyzt_units );
+  printDebug( "mri.cal_max=>"+mri.cal_max );
+  printDebug( "mri.cal_min=>"+mri.cal_min );
+  printDebug( "mri.slice_duration=>"+mri.slice_duration );
+  printDebug( "mri.toffset=>"+mri.toffset );
+  printDebug( "mri.glmax=>"+mri.glmax );
+  printDebug( "mri.glmin=>"+mri.glmin );
   
 //data_history substruct
   s="";
   for(i =0 ; i < 80; i++) { s=s+mri.descrip[i]; }
-  _printDebug( myDebugWin, "mri.descrip=>"+s );
+  printDebug( "mri.descrip=>"+s );
   s="";
   for(i =0 ; i < 24; i++) { s=s+mri.aux_file[i]; }
-  _printDebug( myDebugWin, "mri.aux_file=>"+s );
+  printDebug( "mri.aux_file=>"+s );
   
-  _printDebug( myDebugWin, "mri.aux_file=>"+mri.aux_file );
-  _printDebug( myDebugWin, "mri.qform_code=>"+mri.qform_code );
-  _printDebug( myDebugWin, "mri.sform_code=>"+mri.sform_code );
-  _printDebug( myDebugWin, "mri.quatern_b=>"+mri.quatern_b );
-  _printDebug( myDebugWin, "mri.quatern_c=>"+mri.quatern_c );
-  _printDebug( myDebugWin, "mri.quatern_d=>"+mri.quatern_d );
-  _printDebug( myDebugWin, "mri.qoffset_x=>"+mri.qoffset_x );
-  _printDebug( myDebugWin, "mri.qoffset_y=>"+mri.qoffset_y );
-  _printDebug( myDebugWin, "mri.qoffset_z=>"+mri.qoffset_z );
+  printDebug( "mri.aux_file=>"+mri.aux_file );
+  printDebug( "mri.qform_code=>"+mri.qform_code );
+  printDebug( "mri.sform_code=>"+mri.sform_code );
+  printDebug( "mri.quatern_b=>"+mri.quatern_b );
+  printDebug( "mri.quatern_c=>"+mri.quatern_c );
+  printDebug( "mri.quatern_d=>"+mri.quatern_d );
+  printDebug( "mri.qoffset_x=>"+mri.qoffset_x );
+  printDebug( "mri.qoffset_y=>"+mri.qoffset_y );
+  printDebug( "mri.qoffset_z=>"+mri.qoffset_z );
   
   for(i =0 ; i < 4; i++) {
       t="mri.srow_x["+i+"]";
-      _printDebug( myDebugWin, t+mri.srow_x[i] );
+      printDebug( t+mri.srow_x[i] );
   }
   for(i =0 ; i < 4; i++) {
       t="mri.srow_y["+i+"]";
-      _printDebug( myDebugWin, t+mri.srow_y[i] );
+      printDebug( t+mri.srow_y[i] );
   }
   for(i =0 ; i < 4; i++) {
       t="mri.srow_z["+i+"]";
-      _printDebug( myDebugWin, t+mri.srow_z[i] );
+      printDebug( t+mri.srow_z[i] );
   }
 
   s="";
   for(i =0 ; i < 16; i++) { s=s+mri.intent_name[i]; }
-  _printDebug( myDebugWin, "mri.intent_name =>"+s );
+  printDebug( "mri.intent_name =>"+s );
   
   for(i =0 ; i < 4; i++) {
       t="mri.magic["+i+"]";
-      _printDebug( myDebugWin, t+mri.magic[i] );
+      printDebug( t+mri.magic[i] );
   }
 
 // number of pixels in the volume
-  _printDebug( myDebugWin, "volsize is=>" + (mri.dim[1] * mri.dim[2] * mri.dim[3]));
+  printDebug( "volsize is=>" + (mri.dim[1] * mri.dim[2] * mri.dim[3]));
 
 //scan the pixels regarding the data type 
   switch(mri.datatype) { 
-  case 2: _printDebug( myDebugWin, "mri.data=> unsigned char");
+  case 2: printDebug( "mri.data=> unsigned char");
   break;
-  case 4: _printDebug( myDebugWin, "mri.data=> signed short");
+  case 4: printDebug( "mri.data=> signed short");
   break;
-  case 8: _printDebug( myDebugWin, "mri.data=> signed int");
+  case 8: printDebug( "mri.data=> signed int");
   break;
-  case 16: _printDebug( myDebugWin, "mri.data=> float");
+  case 16: printDebug( "mri.data=> float");
   break;
-  case 32: _printDebug( myDebugWin, "mri.data=> complex");
+  case 32: printDebug( "mri.data=> complex");
   break;
-  case 64: _printDebug( myDebugWin, "mri.data=> double");
+  case 64: printDebug( "mri.data=> double");
   break;
-  case 256: _printDebug( myDebugWin, "mri.data=> signed char");
+  case 256: printDebug( "mri.data=> signed char");
   break;
-  case 512: _printDebug( myDebugWin, "mri.data=> unsigned short");
+  case 512: printDebug( "mri.data=> unsigned short");
   break;
-  case 768: _printDebug( myDebugWin, "mri.data=> unsigned int");
+  case 768: printDebug( "mri.data=> unsigned int");
   break;
   default:
   throw new Error('Unsupported NII data type: ' + mri.datatype);
   }
 //get the min and max intensities 
-  _printDebug( myDebugWin, "mri.min=>"+mri.min );
-  _printDebug( myDebugWin, "mri.max=>"+mri.max );
+  printDebug( "mri.min=>"+mri.min );
+  printDebug( "mri.max=>"+mri.max );
 };
 
