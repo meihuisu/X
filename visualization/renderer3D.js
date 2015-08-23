@@ -282,6 +282,21 @@ X.renderer3D.prototype.resetBoundingBox = function() {
 
 };
 
+/**
+ * Get the Global Bounding Box of this renderer.
+ *
+ * @return {!Array} The dimensions of this renderer.
+ * @public
+ */
+X.renderer3D.prototype.__defineGetter__('bbox', function() {
+
+  var _bbox= [ this._minX, this._maxX,
+               this._minY, this._maxY,
+               this._minZ, this._maxZ ];
+  return _bbox; 
+
+});
+
 
 /**
  * @inheritDoc
@@ -2413,6 +2428,8 @@ goog.exportSymbol('X.renderer3D.prototype.remove',
     X.renderer3D.prototype.remove);
 goog.exportSymbol('X.renderer3D.prototype.resetBoundingBox',
     X.renderer3D.prototype.resetBoundingBox);
+goog.exportSymbol('X.renderer3D.prototype.bbox',
+    X.renderer3D.prototype.bbox);
 goog.exportSymbol('X.renderer3D.prototype.resetViewAndRender',
     X.renderer3D.prototype.resetViewAndRender);
 goog.exportSymbol('X.renderer3D.prototype.pick', X.renderer3D.prototype.pick);
