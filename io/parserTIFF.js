@@ -361,6 +361,9 @@ loop=false
 min=30019.0
 max=56810.0*/
           var tmp=v.match(/spacing=\d[.]\d*/);
+          if(tmp==null) { // use the default
+            return;
+          }
           tmp=tmp[0];
           tmp=tmp.match(/\d[.]\d*/);
           var _pixdim= parseFloat(tmp[0]);
