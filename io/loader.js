@@ -157,6 +157,13 @@ X.loader.prototype.checkFileFormat = function(container) {
   // grab the file extension
   var extension = filepath.split('.').pop().toUpperCase();
 
+  if(extension == 'GZ') { 
+    extension = filepath.split('.').reverse()[1].toUpperCase();
+    if (!(extension in X.loader.compression_extensions)) {
+       throw new Error('The compressed ' + extension + ' file format is not supported.');
+    }
+  }
+
   // support no extensions
   if (extension == filepath.toUpperCase()) {
 
@@ -379,8 +386,6 @@ X.loader.extensions = {
   'NII': [X.parserNII, null],
   'TIF': [X.parserTIFF, null],
   'TIFF': [X.parserTIFF, null],
-  'GZ': [X.parserNII, null], // right now nii.gz is the only
-  // format ending .gz
   'DCM': [X.parserDCM, null],
   'DICOM': [X.parserDCM, null],
   '': [X.parserDCM, null],
@@ -397,4 +402,9 @@ X.loader.extensions = {
   'JPG': [X.parserIMAGE, 'jpeg'],
   'JPEG': [X.parserIMAGE, 'jpeg'],
   'GIF': [X.parserIMAGE, 'gif']
+};
+
+X.loader.compression_extensions = {
+  'OBJ': [X.parserOBJ, null],
+  'NII': [X.parserNII, null]
 };
