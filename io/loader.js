@@ -157,6 +157,7 @@ X.loader.prototype.checkFileFormat = function(container) {
   // grab the file extension
   var extension = filepath.split('.').pop().toUpperCase();
 
+  // check for valid compressed file extension
   if(extension == 'GZ') { 
     extension = filepath.split('.').reverse()[1].toUpperCase();
     if (!(extension in X.loader.compression_extensions)) {

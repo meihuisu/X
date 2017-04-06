@@ -67,10 +67,20 @@ goog.inherits(X.parserOBJ, X.parser);
  */
 X.parserOBJ.prototype.parse = function(container, object, data, flag) {
 
+  var _data=data;
+
   X.TIMER(this._classname + '.parse');
-  
-  this._data = data;
-  var _length = data.byteLength;
+
+// attempt to uncompress it
+  try {
+     var inflate = new Zlib.Gunzip(new Uint8Array(_data));
+     _data = inflate.decompress().buffer;
+  } catch (e) {
+        // it must be uncompressed OBJ
+  }
+
+  this._data = _data;
+  var _length = _data.byteLength;
   var byteData = this.scan('uchar', _length);
 
 //window.console.log("parse: legth "+_length);
