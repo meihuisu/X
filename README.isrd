@@ -23,7 +23,13 @@ Mainly, the io/parserTIFF.js
         and also some additional code here and there
         that were needed for our datasets 
 (look into stackoverflow issues under xtk for some 
-features/problems reported by mei)
+features/issues reported by mei)
+
+briefly, the tiff parser is very specific to the TIFF 
+format of the data that we have so far, so there is a 
+good chance that as we have additional TIFF data that
+does not conform to our original TIFF format but still
+valid TIFF, this code needs to be adjusted
 
 The XTK is built standalone and then the XTK.js is dropped
 into the js directory of the viewers that needs it.
