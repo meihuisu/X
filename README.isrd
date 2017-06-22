@@ -9,14 +9,14 @@ forked from XTK in the wild,
    https://github.com/informatics-isi-edu/X.git
 fork from informatics X
    https://github.com/meihuisu/X.git
-    (https://github.com/informatics-isi-edu/X-isi.git)
+    (https://github.com/informatics-isi-edu/X-isrd.git)
 
 informatics' X is used to generate pull request back to
 the XTK in the wild. It follows closely with XTK in the
 wild and has just minimal changes made that was accepted
 back into XTK in the wild code base.
 
-informatics' X-isi is the repo that contains the bulk
+informatics' X-isrd is the repo that contains the bulk
 changes we did to work with our viewers
 
 Mainly, the io/parserTIFF.js
