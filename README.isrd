@@ -1,0 +1,46 @@
+
+This is internal documenation for XTK used 
+for our 3d viewer and mesh-viewer
+
+XTK in the wild,
+   https://github.com/xtk/X.git
+
+forked from XTK in the wild,
+   https://github.com/informatics-isi-edu/X.git
+fork from informatics X
+   https://github.com/meihuisu/X.git
+    (https://github.com/informatics-isi-edu/X-isi.git)
+
+informatics' X is used to generate pull request back to
+the XTK in the wild. It follows closely with XTK in the
+wild and has just minimal changes made that was accepted
+back into XTK in the wild code base.
+
+informatics' X-isi is the repo that contains the bulk
+changes we did to work with our viewers
+
+Mainly, the io/parserTIFF.js
+        and also some additional code here and there
+        that were needed for our datasets 
+(look into stackoverflow issues under xtk for some 
+features/problems reported by mei)
+
+The XTK is built standalone and then the XTK.js is dropped
+into the js directory of the viewers that needs it.
+
+If a debuggable version of viewers is ever needed, A copy 
+of XTK can be dropped at the top level of the viewer and 
+adjust viewer's view.html to reference it, and then can use 
+the browser's debugging tool to step into the XTK source code
+
+There are couple of steps to build the XTK standalone,
+(XTK in the wild has its build steps in their developer section)
+Here is the short list,
+
+  git clone the src
+  git update submodules
+  utils/deps.py
+  utils/build.py
+
+
+
